@@ -1,0 +1,57 @@
+# ============================================================
+#  NETLIFY CONFIGURATION
+# ============================================================
+
+[build]
+  # Source directory (your HTML/CSS/JS files)
+  publish = "src"
+  # Build command (no build step needed for plain HTML)
+  command = "echo 'No build step required'"
+
+# ── API Functions ─────────────────────────────────────────
+[functions]
+  # Netlify will pick up all *.js files in this folder
+  directory = "netlify/functions"
+
+# ── Redirects ─────────────────────────────────────────────
+[[redirects]]
+  # Route all /api/* requests to the serverless function
+  from = "/api/*"
+  to   = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  # Serve admin panel at /admin
+  from = "/admin"
+  to   = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  # SPA fallback (optional)
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ── Security Headers ──────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options            = "DENY"
+    X-Content-Type-Options     = "nosniff"
+    X-XSS-Protection           = "1; mode=block"
+    Referrer-Policy            = "strict-origin-when-cross-origin"
+    Permissions-Policy         = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    # Extra no-cache for admin
+    Cache-Control = "no-store, no-cache, must-revalidate"
+
+# ── Environment ───────────────────────────────────────────
+# Set these in Netlify UI → Site settings → Environment variables:
+#
+#   ADMIN_USERNAME   = admin
+#   ADMIN_PASS_HASH  = <output of: node scripts/generate-hash.js>
+#   JWT_SECRET       = <random 64-char string>
+#   DATABASE_URL     = <optional: postgres://...>

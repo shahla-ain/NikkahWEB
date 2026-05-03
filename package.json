@@ -1,0 +1,23 @@
+{
+  "name": "nikah-invite",
+  "version": "1.0.0",
+  "description": "Beautiful, secure Nikah Invitation Website with Admin Panel",
+  "main": "api/index.js",
+  "scripts": {
+    "generate-hash": "node scripts/generate-hash.js",
+    "dev": "npx http-server src -p 3000 -o",
+    "test": "echo \"No tests configured\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["nikah", "wedding", "invitation", "islamic"],
+  "license": "MIT"
+}

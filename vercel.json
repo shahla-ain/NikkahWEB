@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "comment": "Vercel deployment configuration for Nikah Invite",
+
+  "builds": [
+    {
+      "src": "src/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/admin",
+      "dest": "/src/admin/index.html"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/src/admin/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/$1"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options",        "value": "DENY" },
+        { "key": "X-Content-Type-Options",  "value": "nosniff" },
+        { "key": "X-XSS-Protection",        "value": "1; mode=block" },
+        { "key": "Referrer-Policy",         "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",      "value": "geolocation=(), microphone=(), camera=()" }
+      ]
+    },
+    {
+      "source": "/admin/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    }
+  ],
+
+  "env": {
+    "COMMENT": "Set these in Vercel Dashboard → Project → Settings → Environment Variables",
+    "ADMIN_USERNAME":  "Set in Vercel UI",
+    "ADMIN_PASS_HASH": "Set in Vercel UI",
+    "JWT_SECRET":      "Set in Vercel UI",
+    "DATABASE_URL":    "Set in Vercel UI (optional)"
+  }
+}

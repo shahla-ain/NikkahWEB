@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Nikah Invite</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C; --gold-l: #E8CC7A; --gold-p: #F5EDD0;
+      --dg: #1A2E1F; --forest: #234028; --cream: #FAF6EE; --ivory: #FFFDF7;
+      --text: #1C1C1C; --mid: #4A4A4A; --red: #c0392b;
+      --font-d: 'Cormorant Garamond', serif;
+      --font-a: 'Noto Naskh Arabic', serif;
+      --tr: all 0.3s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-d);background:var(--dg);color:var(--ivory);min-height:100vh;display:flex;flex-direction:column}
+    .page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+
+    /* ── Login ── */
+    #login-page{background:linear-gradient(135deg,var(--dg) 0%,var(--forest) 100%)}
+    #login-page::before{
+      content:'';position:fixed;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='rgba(201,168,76,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size:60px 60px;pointer-events:none
+    }
+    .login-box{
+      width:100%;max-width:440px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:20px;padding:3rem;
+      position:relative;z-index:1;
+    }
+    .login-logo{font-family:var(--font-a);font-size:2rem;color:var(--gold-l);text-align:center;margin-bottom:0.25rem;direction:rtl}
+    .login-sub{text-align:center;font-size:0.8rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem}
+    .form-group{margin-bottom:1.4rem}
+    .form-label{display:block;font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.45rem}
+    .form-input{width:100%;padding:0.85rem 1.1rem;background:rgba(255,255,255,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;color:var(--ivory);font-family:var(--font-d);font-size:1rem;transition:var(--tr);outline:none}
+    .form-input::placeholder{color:rgba(245,237,208,0.3)}
+    .form-input:focus{border-color:var(--gold)}
+    .btn-login{width:100%;padding:1rem;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);color:var(--dg);font-family:var(--font-d);font-size:1rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;transition:var(--tr)}
+    .btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.3)}
+    .btn-login:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+    .login-error{margin-top:1rem;padding:0.85rem;border-radius:8px;background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.4);color:#ffaaaa;font-size:0.9rem;display:none;text-align:center}
+    .login-error.show{display:block}
+    .rate-limit-msg{margin-top:0.75rem;font-size:0.8rem;color:rgba(245,237,208,0.4);text-align:center}
+
+    /* ── Dashboard ── */
+    #dashboard-page{display:none;flex-direction:column;min-height:100vh;background:var(--cream)}
+    .dash-nav{background:var(--dg);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,0.1)}
+    .dash-logo{font-family:var(--font-a);font-size:1.4rem;color:var(--gold-l)}
+    .dash-user{font-size:0.85rem;letter-spacing:0.1em;color:rgba(245,237,208,0.5);display:flex;align-items:center;gap:1rem}
+    .btn-logout{padding:0.4rem 1.1rem;border:1px solid rgba(201,168,76,0.3);border-radius:99px;color:var(--gold);font-family:var(--font-d);font-size:0.8rem;cursor:pointer;letter-spacing:0.1em;transition:var(--tr)}
+    .btn-logout:hover{background:rgba(201,168,76,0.1)}
+    .dash-content{flex:1;padding:2.5rem 2rem;max-width:1200px;margin:0 auto;width:100%}
+    .dash-title{font-size:1.8rem;font-style:italic;color:var(--dg);margin-bottom:0.25rem}
+    .dash-sub{color:var(--mid);font-size:0.9rem;letter-spacing:0.08em;margin-bottom:2.5rem}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+    .stat-card{background:white;border-radius:12px;padding:1.5rem;border:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+    .stat-icon{font-size:1.6rem;margin-bottom:0.5rem}
+    .stat-value{font-size:2rem;font-weight:300;color:var(--dg)}
+    .stat-label{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);margin-top:0.2rem}
+
+    /* RSVP Table */
+    .table-card{background:white;border-radius:12px;border:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 10px rgba(0,0,0,0.05);overflow:hidden;margin-bottom:2rem}
+    .table-header{padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .table-header h3{font-size:1.1rem;font-style:italic;color:var(--dg)}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:0.9rem}
+    thead tr{background:rgba(201,168,76,0.08)}
+    th{padding:0.85rem 1rem;text-align:left;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);font-weight:500}
+    td{padding:0.85rem 1rem;border-top:1px solid rgba(0,0,0,0.05);color:var(--text)}
+    tr:hover td{background:rgba(201,168,76,0.03)}
+    .badge{display:inline-block;padding:0.2rem 0.65rem;border-radius:99px;font-size:0.72rem;letter-spacing:0.08em}
+    .badge-yes{background:rgba(46,139,87,0.1);color:#2e8b57}
+    .badge-no{background:rgba(192,57,43,0.1);color:#c0392b}
+    .empty-state{padding:3rem;text-align:center;color:var(--mid);font-style:italic}
+
+    /* Config editor */
+    .config-editor{background:white;border-radius:12px;border:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:2rem;margin-bottom:2rem}
+    .config-editor h3{font-size:1.2rem;font-style:italic;color:var(--dg);margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .config-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+    .cfg-group{margin-bottom:0.25rem}
+    .cfg-label{display:block;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);margin-bottom:0.35rem}
+    .cfg-input{width:100%;padding:0.65rem 0.85rem;background:var(--cream);border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--font-d);font-size:0.95rem;color:var(--text);outline:none;transition:var(--tr)}
+    .cfg-input:focus{border-color:var(--gold)}
+    .btn-save{padding:0.7rem 2rem;background:var(--gold);color:var(--dg);font-family:var(--font-d);font-size:0.95rem;font-weight:600;letter-spacing:0.12em;border:none;border-radius:8px;cursor:pointer;transition:var(--tr);margin-top:1.5rem}
+    .btn-save:hover{background:var(--gold-l);transform:translateY(-1px)}
+    .save-msg{display:none;margin-left:1rem;font-size:0.9rem;color:#2e8b57}
+    .save-msg.show{display:inline}
+    .btn-refresh{padding:0.4rem 1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--font-d);font-size:0.8rem;cursor:pointer;color:var(--mid);transition:var(--tr)}
+    .btn-refresh:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* Session expired banner */
+    .session-banner{display:none;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);padding:0.75rem 1.5rem;text-align:center;font-size:0.9rem;color:var(--red)}
+    .session-banner.show{display:block}
+
+    @media(max-width:640px){
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .config-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN PAGE ─────────────────────────────── -->
+<div id="login-page" class="page">
+  <div class="login-box">
+    <div class="login-logo">لوحة التحكم</div>
+    <p class="login-sub">Admin Control Panel</p>
+    <form id="login-form" novalidate autocomplete="off">
+      <div class="form-group">
+        <label class="form-label" for="admin-user">Username</label>
+        <input class="form-input" type="text" id="admin-user" name="username"
+               placeholder="Enter username" autocomplete="username"
+               maxlength="64" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="admin-pass">Password</label>
+        <input class="form-input" type="password" id="admin-pass" name="password"
+               placeholder="Enter password" autocomplete="current-password"
+               maxlength="128" required />
+      </div>
+      <button type="submit" class="btn-login" id="login-btn">Sign In</button>
+      <div class="login-error" id="login-error"></div>
+      <p class="rate-limit-msg" id="rate-msg"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ─────────────────────────────── -->
+<div id="dashboard-page">
+
+  <div class="session-banner" id="session-banner">
+    ⚠️ Your session has expired. <a href="#" onclick="logout()" style="color:var(--gold)">Log in again</a>
+  </div>
+
+  <nav class="dash-nav">
+    <span class="dash-logo">نكاح — Admin</span>
+    <div class="dash-user">
+      <span id="dash-username">admin</span>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="dash-content">
+    <h1 class="dash-title">Wedding Dashboard</h1>
+    <p class="dash-sub" id="dash-welcome">Welcome back</p>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">✉️</div>
+        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-label">Total RSVPs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="stat-yes">—</div>
+        <div class="stat-label">Attending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">❌</div>
+        <div class="stat-value" id="stat-no">—</div>
+        <div class="stat-label">Declined</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="stat-guests">—</div>
+        <div class="stat-label">Total Guests</div>
+      </div>
+    </div>
+
+    <!-- RSVP List -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>RSVP Responses</h3>
+        <button class="btn-refresh" onclick="loadRsvps()">↻ Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Attendance</th>
+              <th>Event</th>
+              <th>Guests</th>
+              <th>Message</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="rsvp-table-body">
+            <tr><td colspan="8" class="empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Config Editor -->
+    <div class="config-editor">
+      <h3>Edit Wedding Details</h3>
+      <div class="config-grid">
+        <div class="cfg-group">
+          <label class="cfg-label">Bride Name</label>
+          <input class="cfg-input" id="cfg-bride-name" type="text" maxlength="80" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Bride Arabic Name</label>
+          <input class="cfg-input" id="cfg-bride-arabic" type="text" maxlength="80" dir="rtl" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Groom Name</label>
+          <input class="cfg-input" id="cfg-groom-name" type="text" maxlength="80" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Groom Arabic Name</label>
+          <input class="cfg-input" id="cfg-groom-arabic" type="text" maxlength="80" dir="rtl" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Tagline</label>
+          <input class="cfg-input" id="cfg-tagline" type="text" maxlength="120" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Nikah Date (YYYY-MM-DD)</label>
+          <input class="cfg-input" id="cfg-nikah-date" type="date" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Nikah Time</label>
+          <input class="cfg-input" id="cfg-nikah-time" type="text" maxlength="30" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Nikah Venue</label>
+          <input class="cfg-input" id="cfg-nikah-venue" type="text" maxlength="150" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Nikah Address</label>
+          <input class="cfg-input" id="cfg-nikah-address" type="text" maxlength="200" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Walima Date (YYYY-MM-DD)</label>
+          <input class="cfg-input" id="cfg-walima-date" type="date" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Walima Time</label>
+          <input class="cfg-input" id="cfg-walima-time" type="text" maxlength="30" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Walima Venue</label>
+          <input class="cfg-input" id="cfg-walima-venue" type="text" maxlength="150" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Walima Address</label>
+          <input class="cfg-input" id="cfg-walima-address" type="text" maxlength="200" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">WhatsApp Number</label>
+          <input class="cfg-input" id="cfg-whatsapp" type="tel" maxlength="20" />
+        </div>
+        <div class="cfg-group">
+          <label class="cfg-label">Site URL</label>
+          <input class="cfg-input" id="cfg-site-url" type="url" maxlength="200" />
+        </div>
+      </div>
+      <button class="btn-save" onclick="saveConfig()">Save Changes</button>
+      <span class="save-msg" id="save-msg">✓ Saved!</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   CONSTANTS & STATE
+═══════════════════════════════════════════════════ */
+const TOKEN_KEY   = 'nikah_admin_token';
+const TOKEN_EXP   = 'nikah_admin_exp';
+const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 hours
+
+let loginAttempts = 0;
+let lockoutUntil  = 0;
+
+/* ═══════════════════════════════════════════════════
+   TOKEN HELPERS
+═══════════════════════════════════════════════════ */
+function saveToken(token) {
+  try {
+    sessionStorage.setItem(TOKEN_KEY, token);
+    sessionStorage.setItem(TOKEN_EXP, String(Date.now() + SESSION_TTL));
+  } catch(e) {}
+}
+function getToken() {
+  try {
+    const exp = parseInt(sessionStorage.getItem(TOKEN_EXP) || '0', 10);
+    if (Date.now() > exp) { clearToken(); return null; }
+    return sessionStorage.getItem(TOKEN_KEY);
+  } catch(e) { return null; }
+}
+function clearToken() {
+  try { sessionStorage.removeItem(TOKEN_KEY); sessionStorage.removeItem(TOKEN_EXP); } catch(e) {}
+}
+
+/* ═══════════════════════════════════════════════════
+   AUTH CHECK ON LOAD
+═══════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  const token = getToken();
+  if (token) {
+    showDashboard(token);
+  }
+  // Session check every minute
+  setInterval(() => {
+    const t = getToken();
+    if (!t && document.getElementById('dashboard-page').style.display !== 'none') {
+      document.getElementById('session-banner').classList.add('show');
+    }
+  }, 60000);
+});
+
+/* ═══════════════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════════════ */
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('login-error');
+  const rateEl = document.getElementById('rate-msg');
+  errEl.classList.remove('show');
+  rateEl.textContent = '';
+
+  // Rate limiting (client-side guard)
+  if (Date.now() < lockoutUntil) {
+    const secs = Math.ceil((lockoutUntil - Date.now()) / 1000);
+    errEl.textContent = `Too many attempts. Please wait ${secs} seconds.`;
+    errEl.classList.add('show');
+    return;
+  }
+
+  const username = document.getElementById('admin-user').value.trim().substring(0, 64);
+  const password = document.getElementById('admin-pass').value.substring(0, 128);
+
+  if (!username || !password) {
+    errEl.textContent = 'Please enter username and password.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+      signal: AbortSignal.timeout(10000)
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok && data.token) {
+      loginAttempts = 0;
+      saveToken(data.token);
+      showDashboard(data.token, username);
+    } else {
+      loginAttempts++;
+      if (loginAttempts >= 5) {
+        lockoutUntil = Date.now() + 30000; // 30s lockout
+        errEl.textContent = 'Too many failed attempts. Please wait 30 seconds.';
+        rateEl.textContent = '5 failed attempts detected.';
+      } else {
+        errEl.textContent = data.message || 'Invalid credentials.';
+        rateEl.textContent = `${5 - loginAttempts} attempts remaining before lockout.`;
+      }
+      errEl.classList.add('show');
+    }
+  } catch (err) {
+    errEl.textContent = 'Network error. Please check your connection.';
+    errEl.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+    document.getElementById('admin-pass').value = '';
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   SHOW DASHBOARD
+═══════════════════════════════════════════════════ */
+function showDashboard(token, username) {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('dashboard-page').style.display = 'flex';
+  if (username) {
+    document.getElementById('dash-username').textContent = username;
+    const now = new Date();
+    document.getElementById('dash-welcome').textContent =
+      `Welcome back · ${now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' })}`;
+  }
+  loadRsvps();
+  loadConfig();
+}
+
+/* ═══════════════════════════════════════════════════
+   LOGOUT
+═══════════════════════════════════════════════════ */
+function logout() {
+  clearToken();
+  document.getElementById('dashboard-page').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('session-banner').classList.remove('show');
+  document.getElementById('admin-user').value = '';
+  document.getElementById('admin-pass').value = '';
+}
+
+/* ═══════════════════════════════════════════════════
+   API HELPER
+═══════════════════════════════════════════════════ */
+async function authFetch(url, opts = {}) {
+  const token = getToken();
+  if (!token) { document.getElementById('session-banner').classList.add('show'); return null; }
+  return fetch(url, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, ...(opts.headers || {}) },
+    signal: AbortSignal.timeout(10000)
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   LOAD RSVPs
+═══════════════════════════════════════════════════ */
+async function loadRsvps() {
+  const tbody = document.getElementById('rsvp-table-body');
+  tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Loading…</td></tr>';
+
+  try {
+    const res = await authFetch('/api/admin/rsvps');
+    if (!res) return;
+
+    if (res.status === 401) { document.getElementById('session-banner').classList.add('show'); return; }
+
+    const data = await res.json().catch(() => ({ rsvps: [] }));
+    const rsvps = Array.isArray(data.rsvps) ? data.rsvps : [];
+
+    // Stats
+    const total  = rsvps.length;
+    const yes    = rsvps.filter(r => r.attendance === 'yes').length;
+    const no     = rsvps.filter(r => r.attendance === 'no').length;
+    const guests = rsvps.reduce((s, r) => s + (parseInt(r.guests, 10) || 1), 0);
+    document.getElementById('stat-total').textContent  = total;
+    document.getElementById('stat-yes').textContent    = yes;
+    document.getElementById('stat-no').textContent     = no;
+    document.getElementById('stat-guests').textContent = guests;
+
+    if (rsvps.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No RSVPs yet.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = rsvps.map((r, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${escHTML(r.name)}</td>
+        <td>${escHTML(r.email || '—')}</td>
+        <td><span class="badge badge-${r.attendance === 'yes' ? 'yes' : 'no'}">${r.attendance === 'yes' ? '✓ Attending' : '✗ Declined'}</span></td>
+        <td>${escHTML(r.event || 'both')}</td>
+        <td>${escHTML(String(r.guests || 1))}</td>
+        <td title="${escHTML(r.message || '')}">${escHTML((r.message || '—').substring(0, 40))}${(r.message || '').length > 40 ? '…' : ''}</td>
+        <td>${r.createdAt ? new Date(r.createdAt).toLocaleString('en-GB', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'}</td>
+      </tr>`).join('');
+
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Failed to load data. Check API connection.</td></tr>';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   LOAD CONFIG
+═══════════════════════════════════════════════════ */
+async function loadConfig() {
+  try {
+    const res = await authFetch('/api/admin/config');
+    if (!res || !res.ok) return;
+    const cfg = await res.json().catch(() => ({}));
+    if (cfg.bride) {
+      document.getElementById('cfg-bride-name').value   = cfg.bride.name || '';
+      document.getElementById('cfg-bride-arabic').value = cfg.bride.arabicName || '';
+    }
+    if (cfg.groom) {
+      document.getElementById('cfg-groom-name').value   = cfg.groom.name || '';
+      document.getElementById('cfg-groom-arabic').value = cfg.groom.arabicName || '';
+    }
+    document.getElementById('cfg-tagline').value     = cfg.heroTagline || '';
+    document.getElementById('cfg-site-url').value    = cfg.siteUrl || '';
+    document.getElementById('cfg-whatsapp').value    = cfg.rsvp?.whatsappNumber || '';
+    if (cfg.events && cfg.events[0]) {
+      document.getElementById('cfg-nikah-date').value  = cfg.events[0].date || '';
+      document.getElementById('cfg-nikah-time').value  = cfg.events[0].time || '';
+      document.getElementById('cfg-nikah-venue').value = cfg.events[0].venue || '';
+      document.getElementById('cfg-nikah-address').value = cfg.events[0].address || '';
+    }
+    if (cfg.events && cfg.events[1]) {
+      document.getElementById('cfg-walima-date').value  = cfg.events[1].date || '';
+      document.getElementById('cfg-walima-time').value  = cfg.events[1].time || '';
+      document.getElementById('cfg-walima-venue').value = cfg.events[1].venue || '';
+      document.getElementById('cfg-walima-address').value = cfg.events[1].address || '';
+    }
+  } catch(e) {}
+}
+
+/* ═══════════════════════════════════════════════════
+   SAVE CONFIG
+═══════════════════════════════════════════════════ */
+async function saveConfig() {
+  const saveMsg = document.getElementById('save-msg');
+  saveMsg.classList.remove('show');
+
+  const payload = {
+    bride: {
+      name: document.getElementById('cfg-bride-name').value.trim().substring(0,80),
+      arabicName: document.getElementById('cfg-bride-arabic').value.trim().substring(0,80)
+    },
+    groom: {
+      name: document.getElementById('cfg-groom-name').value.trim().substring(0,80),
+      arabicName: document.getElementById('cfg-groom-arabic').value.trim().substring(0,80)
+    },
+    heroTagline: document.getElementById('cfg-tagline').value.trim().substring(0,120),
+    siteUrl: document.getElementById('cfg-site-url').value.trim().substring(0,200),
+    rsvp: {
+      whatsappNumber: document.getElementById('cfg-whatsapp').value.trim().substring(0,20)
+    },
+    nikahEvent: {
+      date:    document.getElementById('cfg-nikah-date').value,
+      time:    document.getElementById('cfg-nikah-time').value.trim().substring(0,30),
+      venue:   document.getElementById('cfg-nikah-venue').value.trim().substring(0,150),
+      address: document.getElementById('cfg-nikah-address').value.trim().substring(0,200)
+    },
+    walimaEvent: {
+      date:    document.getElementById('cfg-walima-date').value,
+      time:    document.getElementById('cfg-walima-time').value.trim().substring(0,30),
+      venue:   document.getElementById('cfg-walima-venue').value.trim().substring(0,150),
+      address: document.getElementById('cfg-walima-address').value.trim().substring(0,200)
+    }
+  };
+
+  try {
+    const res = await authFetch('/api/admin/config', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    if (res && res.ok) {
+      saveMsg.textContent = '✓ Saved successfully!';
+      saveMsg.style.color = '#2e8b57';
+    } else {
+      saveMsg.textContent = '✗ Save failed.';
+      saveMsg.style.color = '#c0392b';
+    }
+  } catch(e) {
+    saveMsg.textContent = '✗ Network error.';
+    saveMsg.style.color = '#c0392b';
+  }
+  saveMsg.classList.add('show');
+  setTimeout(() => saveMsg.classList.remove('show'), 3000);
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════════════ */
+function escHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+</script>
+</body>
+</html>
