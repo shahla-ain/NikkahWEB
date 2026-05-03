@@ -18,80 +18,43 @@ body{
   font-family:'Poppins',sans-serif;
   color:#fff;
   display:flex;
-  align-items:center;
   justify-content:center;
-  overflow:hidden;
+  padding:40px 15px;
+  overflow-x:hidden;
 }
 
-/* 🌙 Moon */
-.moon{
-  position:absolute;
-  top:8%; right:10%;
-  width:100px; height:100px;
-  background:#fff;
-  border-radius:50%;
-  box-shadow:0 0 40px rgba(255,255,255,0.6);
+/* Fade animation */
+.fade {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
 }
-.moon::after{
-  content:"";
-  position:absolute;
-  left:25px;
-  width:100px;height:100px;
-  background:#0b141a;
-  border-radius:50%;
-}
+.fade:nth-child(2){animation-delay:0.3s;}
+.fade:nth-child(3){animation-delay:0.6s;}
+.fade:nth-child(4){animation-delay:0.9s;}
 
-/* ☁️ Clouds */
-.cloud{
-  position:absolute;
-  background:rgba(255,255,255,0.08);
-  border-radius:50%;
-  filter:blur(20px);
-  animation:moveClouds linear infinite;
-}
-.cloud1{width:200px;height:80px;top:20%;left:-200px;animation-duration:40s;}
-.cloud2{width:300px;height:100px;top:50%;left:-300px;animation-duration:60s;}
-
-@keyframes moveClouds{
-  from{transform:translateX(0);}
-  to{transform:translateX(140vw);}
-}
-
-/* 🕌 Mosque */
-.mosque{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  height:180px;
-  background:linear-gradient(to top,#000,transparent),
-  url('https://i.ibb.co/2kRZ7yD/mosque-silhouette.png') no-repeat bottom center;
-  background-size:cover;
-  opacity:0.4;
+@keyframes fadeUp{
+  to { opacity:1; transform:translateY(0); }
 }
 
 /* Container */
 .container{
-  width:90%;
   max-width:420px;
+  width:100%;
   text-align:center;
   backdrop-filter:blur(20px);
   background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
   padding:30px;
   border-radius:20px;
-  z-index:2;
 }
 
 /* Image */
 .image-box{
-  width:clamp(180px,40vw,240px);
-  height:clamp(230px,50vw,300px);
+  width:220px;height:280px;
   margin:auto;
   border-radius:18px;
   overflow:hidden;
   border:1px solid rgba(212,175,55,0.4);
-  box-shadow:0 0 25px rgba(212,175,55,0.3);
-  animation:float 5s ease-in-out infinite;
 }
 .image-box img{
   width:100%;height:100%;object-fit:cover;
@@ -99,50 +62,70 @@ body{
 
 /* Title */
 h1{
-  font-family:'Cinzel',serif;
-  font-size:clamp(1.8rem,5vw,2.8rem);
+  font-family:'Cinzel';
+  font-size:2.4rem;
+  color:var(--gold);
   margin-top:20px;
-  color:var(--gold);
 }
 
-/* ✨ Quote */
-.quote{
-  margin-top:15px;
-  padding:10px;
-  border-left:2px solid var(--gold);
-}
-
-.arabic{
-  font-size:1.2rem;
-  direction:rtl;
-  color:var(--gold);
-  line-height:1.8;
-}
-
-.translation{
-  font-size:0.8rem;
-  opacity:0.75;
-  margin-top:5px;
-}
-
-.translation span{
-  display:block;
-  margin-top:4px;
-  font-size:0.7rem;
-  opacity:0.6;
-}
-
-/* Countdown */
+/* Countdown flip */
 .countdown{
   display:flex;
   justify-content:center;
-  gap:15px;
+  gap:12px;
   margin:20px 0;
 }
-.countdown div{font-size:0.85rem;}
-.countdown span{
-  font-size:1.4rem;
-  font-weight:bold;
+
+.flip{
+  background:#111;
+  padding:10px;
+  border-radius:10px;
+  width:60px;
+}
+
+.flip span{
+  font-size:1.5rem;
+  color:var(--gold);
+  display:block;
+  animation: flipAnim 0.6s;
+}
+
+@keyframes flipAnim{
+  0%{transform:rotateX(90deg);}
+  100%{transform:rotateX(0);}
+}
+
+/* Quote */
+.quote{
+  margin-top:15px;
+  border-left:2px solid var(--gold);
+  padding-left:10px;
+}
+.arabic{
+  direction:rtl;
+  color:var(--gold);
+}
+.translation{
+  font-size:0.8rem;
+  opacity:0.8;
+}
+
+/* Footer */
+.footer{
+  margin-top:20px;
+  font-size:0.85rem;
+  opacity:0.8;
+}
+
+.footer .love{
+  margin-top:10px;
+  font-size:0.9rem;
+  color:var(--gold);
+}
+
+.arabic-love{
+  direction:rtl;
+  margin-top:8px;
   color:var(--gold);
 }
 
@@ -154,67 +137,59 @@ h1{
   border-radius:20px;
   background:var(--gold);
   color:#000;
-  cursor:pointer;
-  font-weight:600;
-}
-
-/* Footer */
-.footer{
-  margin-top:15px;
-  font-size:0.85rem;
-}
-.footer strong{color:var(--gold);}
-
-/* Animations */
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-10px);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="moon"></div>
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
-<div class="mosque"></div>
-
 <div class="container">
 
-  <div class="image-box">
-    <img src="Nikkah.png" alt="Couple">
+  <div class="image-box fade">
+    <img src="Nikkah.png">
   </div>
 
-  <h1>Launching Soon</h1>
+  <h1 class="fade">Launching Soon by FIA</h1>
 
-  <!-- ✨ Quote -->
-  <div class="quote">
+  <div class="quote fade">
     <p class="arabic">
       وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا
     </p>
     <p class="translation">
       “And among His signs is that He created for you spouses from among yourselves.”
-      <span>— Qur’an 30:21</span>
     </p>
   </div>
 
-  <div class="countdown">
-    <div><span id="d">00</span><br>Days</div>
-    <div><span id="h">00</span><br>Hrs</div>
-    <div><span id="m">00</span><br>Min</div>
-    <div><span id="s">00</span><br>Sec</div>
+  <!-- Flip Countdown -->
+  <div class="countdown fade">
+    <div class="flip"><span id="d">00</span><small>Days</small></div>
+    <div class="flip"><span id="h">00</span><small>Hrs</small></div>
+    <div class="flip"><span id="m">00</span><small>Min</small></div>
+    <div class="flip"><span id="s">00</span><small>Sec</small></div>
   </div>
 
-  <button class="audio-btn" onclick="toggleAudio()">Play Nasheed</button>
+  <button class="audio-btn fade" onclick="toggleAudio()">Play Nasheed</button>
 
   <audio id="nasheed" loop>
-    <source src="Nasheed.mp3" type="audio/mp3">
+    <source src="Nasheed.mp3">
   </audio>
 
-  <div class="footer">
-    Web developing by <br>
-    <strong>Ashik Muhammed & Fidha M P</strong>
+  <!-- ❤️ Footer -->
+  <div class="footer fade">
+
+    <div class="love">
+      Web created with Two ☕️ Coffee partners by  
+      <strong>Ashik Muhammed & Fidha M P</strong>
+    </div>
+
+    <p class="arabic-love">
+      وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+    </p>
+
+    <p style="font-size:0.75rem;">
+      “And He placed between you affection and mercy.” — Qur’an 30:21
+    </p>
+
   </div>
 
 </div>
@@ -226,42 +201,35 @@ setInterval(()=>{
   const now = new Date().getTime();
   const diff = launch - now;
 
-  document.getElementById("d").innerText = Math.floor(diff/(1000*60*60*24));
-  document.getElementById("h").innerText = Math.floor((diff/(1000*60*60))%24);
-  document.getElementById("m").innerText = Math.floor((diff/(1000*60))%60);
-  document.getElementById("s").innerText = Math.floor((diff/1000)%60);
+  function update(id,val){
+    const el=document.getElementById(id);
+    if(el.innerText != val){
+      el.innerText = val;
+      el.style.animation="flipAnim 0.6s";
+    }
+  }
+
+  update("d", Math.floor(diff/(1000*60*60*24)));
+  update("h", Math.floor((diff/(1000*60*60))%24));
+  update("m", Math.floor((diff/(1000*60))%60));
+  update("s", Math.floor((diff/1000)%60));
+
 },1000);
 
-/* 🎵 Autoplay + fallback */
-const audio = document.getElementById("nasheed");
-const btn = document.querySelector(".audio-btn");
-let playing = false;
+/* Audio */
+const audio=document.getElementById("nasheed");
+let playing=false;
 
-window.addEventListener("load", () => {
-  audio.play().then(()=>{
-    playing = true;
-    btn.innerText = "Pause Nasheed";
-  }).catch(()=>{
-    document.body.addEventListener("click", startAudioOnce, {once:true});
-  });
-});
-
-function startAudioOnce(){
-  audio.play();
-  playing = true;
-  btn.innerText = "Pause Nasheed";
-}
-
-function toggleAudio(){
+document.body.addEventListener("click", ()=>{
   if(!playing){
     audio.play();
-    btn.innerText = "Pause Nasheed";
-    playing = true;
-  } else {
-    audio.pause();
-    btn.innerText = "Play Nasheed";
-    playing = false;
+    playing=true;
   }
+});
+
+function toggleAudio(){
+  if(playing){audio.pause();playing=false;}
+  else{audio.play();playing=true;}
 }
 </script>
 
