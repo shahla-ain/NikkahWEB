@@ -10,8 +10,6 @@
 <style>
 :root {
   --gold: #d4af37;
-  --dark: #0b141a;
-  --glass: rgba(255, 255, 255, 0.05);
 }
 
 /* Reset */
@@ -21,10 +19,9 @@
   box-sizing: border-box;
 }
 
-/* Body */
 body {
-  height: 100vh;
-  background: radial-gradient(circle at top, #1a2a33, #0b141a);
+  min-height: 100vh;
+  background: #0b141a;
   font-family: 'Poppins', sans-serif;
   color: #fff;
   display: flex;
@@ -33,38 +30,62 @@ body {
   overflow: hidden;
 }
 
-/* Glow */
-body::before {
+/* 🌙 Moon */
+.moon {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(255,255,255,0.6);
+}
+
+.moon::after {
   content: "";
   position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 70%);
-  top: -100px;
-  right: -100px;
-  filter: blur(80px);
+  top: 0;
+  left: 30px;
+  width: 120px;
+  height: 120px;
+  background: #0b141a;
+  border-radius: 50%;
+}
+
+/* ⭐ Stars */
+.stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  opacity: 0.8;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
 }
 
 /* Container */
 .container {
   text-align: center;
-  backdrop-filter: blur(20px);
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 40px 30px;
-  border-radius: 20px;
+  padding: 30px;
   width: 90%;
   max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  animation: fadeUp 1.2s ease;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* Image */
 .image-box {
-  width: 220px;
-  height: 280px;
+  width: 200px;
+  height: 260px;
   margin: auto;
-  border-radius: 18px;
+  border-radius: 15px;
   overflow: hidden;
   border: 1px solid rgba(212,175,55,0.4);
   box-shadow: 0 0 25px rgba(212,175,55,0.3);
@@ -80,30 +101,32 @@ body::before {
 /* Title */
 h1 {
   font-family: 'Cinzel', serif;
-  font-size: 2.6rem;
+  font-size: 2.2rem;
   margin-top: 20px;
   color: var(--gold);
-  letter-spacing: 3px;
 }
 
-/* Divider */
-.divider {
-  width: 60px;
-  height: 2px;
-  background: var(--gold);
-  margin: 12px auto;
+/* Countdown */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
 }
 
-/* Subtitle */
-.subtitle {
-  font-size: 0.95rem;
-  opacity: 0.7;
+.countdown div {
+  text-align: center;
+}
+
+.countdown span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold);
 }
 
 /* Footer */
 .footer {
-  margin-top: 18px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   opacity: 0.8;
 }
 
@@ -112,59 +135,42 @@ h1 {
 }
 
 /* Animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes float {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
-}
-
-/* Particles */
-.particles span {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--gold);
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: rise 12s linear infinite;
-}
-
-@keyframes rise {
-  from { transform: translateY(100vh) scale(0); }
-  to { transform: translateY(-10vh) scale(1); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- particles -->
-<div class="particles">
-  <span style="left:10%; animation-delay:0s;"></span>
-  <span style="left:30%; animation-delay:2s;"></span>
-  <span style="left:50%; animation-delay:4s;"></span>
-  <span style="left:70%; animation-delay:1s;"></span>
-  <span style="left:90%; animation-delay:3s;"></span>
+<!-- 🌙 Moon -->
+<div class="moon"></div>
+
+<!-- ⭐ Stars -->
+<div class="stars">
+  <span style="top:10%; left:20%"></span>
+  <span style="top:30%; left:70%"></span>
+  <span style="top:60%; left:40%"></span>
+  <span style="top:80%; left:80%"></span>
+  <span style="top:50%; left:10%"></span>
 </div>
 
 <div class="container">
 
-  <!-- ✅ Local image -->
   <div class="image-box">
     <img src="Nikkah.png" alt="Couple">
   </div>
 
   <h1>Launching Soon</h1>
 
-  <div class="divider"></div>
-
-  <p class="subtitle">
-    A new way to create elegant Islamic wedding invitations
-  </p>
+  <!-- ⏳ Countdown -->
+  <div class="countdown">
+    <div><span id="days">00</span><br>Days</div>
+    <div><span id="hours">00</span><br>Hours</div>
+    <div><span id="minutes">00</span><br>Min</div>
+    <div><span id="seconds">00</span><br>Sec</div>
+  </div>
 
   <div class="footer">
     Web developing by <br>
@@ -172,6 +178,26 @@ h1 {
   </div>
 
 </div>
+
+<script>
+// ⏳ Set your launch date here
+const launchDate = new Date("2026-09-01 00:00:00").getTime();
+
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const diff = launchDate - now;
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("days").innerText = d;
+  document.getElementById("hours").innerText = h;
+  document.getElementById("minutes").innerText = m;
+  document.getElementById("seconds").innerText = s;
+}, 1000);
+</script>
 
 </body>
 </html>
