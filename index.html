@@ -19,6 +19,7 @@
   box-sizing: border-box;
 }
 
+/* Body */
 body {
   min-height: 100vh;
   background: #0b141a;
@@ -33,65 +34,77 @@ body {
 /* 🌙 Moon */
 .moon {
   position: absolute;
-  top: 10%;
+  top: 8%;
   right: 10%;
-  width: 120px;
-  height: 120px;
-  background: #fff;
+  width: 100px;
+  height: 100px;
+  background: white;
   border-radius: 50%;
   box-shadow: 0 0 40px rgba(255,255,255,0.6);
 }
-
 .moon::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 30px;
-  width: 120px;
-  height: 120px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
   background: #0b141a;
   border-radius: 50%;
 }
 
-/* ⭐ Stars */
-.stars span {
+/* ☁️ Clouds */
+.cloud {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  opacity: 0.8;
-  animation: twinkle 3s infinite alternate;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: moveClouds linear infinite;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+.cloud1 { width: 200px; height: 80px; top: 20%; left: -200px; animation-duration: 40s; }
+.cloud2 { width: 300px; height: 100px; top: 50%; left: -300px; animation-duration: 60s; }
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(140vw); }
+}
+
+/* 🕌 Mosque */
+.mosque {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(to top, #000, transparent),
+              url('https://i.ibb.co/2kRZ7yD/mosque-silhouette.png') no-repeat bottom center;
+  background-size: cover;
+  opacity: 0.4;
 }
 
 /* Container */
 .container {
-  text-align: center;
-  padding: 30px;
   width: 90%;
   max-width: 420px;
+  text-align: center;
+  backdrop-filter: blur(20px);
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.08);
+  padding: 30px;
+  border-radius: 20px;
+  z-index: 2;
 }
 
 /* Image */
 .image-box {
-  width: 200px;
-  height: 260px;
+  width: clamp(180px, 40vw, 240px);
+  height: clamp(230px, 50vw, 300px);
   margin: auto;
-  border-radius: 15px;
+  border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(212,175,55,0.4);
   box-shadow: 0 0 25px rgba(212,175,55,0.3);
   animation: float 5s ease-in-out infinite;
 }
-
 .image-box img {
   width: 100%;
   height: 100%;
@@ -101,7 +114,7 @@ body {
 /* Title */
 h1 {
   font-family: 'Cinzel', serif;
-  font-size: 2.2rem;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
   margin-top: 20px;
   color: var(--gold);
 }
@@ -113,23 +126,32 @@ h1 {
   gap: 15px;
   margin: 20px 0;
 }
-
 .countdown div {
-  text-align: center;
+  font-size: 0.85rem;
+}
+.countdown span {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--gold);
 }
 
-.countdown span {
-  font-size: 1.5rem;
+/* Button */
+.audio-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background: var(--gold);
+  color: #000;
+  cursor: pointer;
   font-weight: 600;
-  color: var(--gold);
 }
 
 /* Footer */
 .footer {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  margin-top: 15px;
+  font-size: 0.85rem;
 }
-
 .footer strong {
   color: var(--gold);
 }
@@ -144,17 +166,12 @@ h1 {
 
 <body>
 
-<!-- 🌙 Moon -->
 <div class="moon"></div>
 
-<!-- ⭐ Stars -->
-<div class="stars">
-  <span style="top:10%; left:20%"></span>
-  <span style="top:30%; left:70%"></span>
-  <span style="top:60%; left:40%"></span>
-  <span style="top:80%; left:80%"></span>
-  <span style="top:50%; left:10%"></span>
-</div>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="mosque"></div>
 
 <div class="container">
 
@@ -164,39 +181,53 @@ h1 {
 
   <h1>Launching Soon</h1>
 
-  <!-- ⏳ Countdown -->
   <div class="countdown">
-    <div><span id="days">00</span><br>Days</div>
-    <div><span id="hours">00</span><br>Hours</div>
-    <div><span id="minutes">00</span><br>Min</div>
-    <div><span id="seconds">00</span><br>Sec</div>
+    <div><span id="d">00</span><br>Days</div>
+    <div><span id="h">00</span><br>Hrs</div>
+    <div><span id="m">00</span><br>Min</div>
+    <div><span id="s">00</span><br>Sec</div>
   </div>
+
+  <button class="audio-btn" onclick="toggleAudio()">Play Nasheed</button>
+
+  <audio id="nasheed" loop>
+    <source src="nasheed.mp3" type="audio/mp3">
+  </audio>
 
   <div class="footer">
     Web developing by <br>
-    <strong>Ashik Muhammed & Fidha</strong>
+    <strong>Ashik Muhammed & Fidha S</strong>
   </div>
 
 </div>
 
 <script>
-// ⏳ Set your launch date here
-const launchDate = new Date("2026-09-01 00:00:00").getTime();
+const launch = new Date("2026-01-01").getTime();
 
-const timer = setInterval(() => {
+setInterval(()=>{
   const now = new Date().getTime();
-  const diff = launchDate - now;
+  const diff = launch - now;
 
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
+  document.getElementById("d").innerText = Math.floor(diff/(1000*60*60*24));
+  document.getElementById("h").innerText = Math.floor((diff/(1000*60*60))%24);
+  document.getElementById("m").innerText = Math.floor((diff/(1000*60))%60);
+  document.getElementById("s").innerText = Math.floor((diff/1000)%60);
+},1000);
 
-  document.getElementById("days").innerText = d;
-  document.getElementById("hours").innerText = h;
-  document.getElementById("minutes").innerText = m;
-  document.getElementById("seconds").innerText = s;
-}, 1000);
+const audio = document.getElementById("nasheed");
+let playing = false;
+
+function toggleAudio(){
+  if(!playing){
+    audio.play();
+    event.target.innerText = "Pause Nasheed";
+    playing = true;
+  } else {
+    audio.pause();
+    event.target.innerText = "Play Nasheed";
+    playing = false;
+  }
+}
 </script>
 
 </body>
