@@ -8,158 +8,140 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --gold: #d4af37;
-}
+:root { --gold:#d4af37; }
 
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-/* Body */
-body {
-  min-height: 100vh;
-  background: #0b141a;
-  font-family: 'Poppins', sans-serif;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+body{
+  min-height:100vh;
+  background:#0b141a;
+  font-family:'Poppins',sans-serif;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 /* 🌙 Moon */
-.moon {
-  position: absolute;
-  top: 8%;
-  right: 10%;
-  width: 100px;
-  height: 100px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 40px rgba(255,255,255,0.6);
+.moon{
+  position:absolute;
+  top:8%; right:10%;
+  width:100px; height:100px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:0 0 40px rgba(255,255,255,0.6);
 }
-.moon::after {
-  content: "";
-  position: absolute;
-  left: 25px;
-  width: 100px;
-  height: 100px;
-  background: #0b141a;
-  border-radius: 50%;
+.moon::after{
+  content:"";
+  position:absolute;
+  left:25px;
+  width:100px;height:100px;
+  background:#0b141a;
+  border-radius:50%;
 }
 
 /* ☁️ Clouds */
-.cloud {
-  position: absolute;
-  background: rgba(255,255,255,0.08);
-  border-radius: 50%;
-  filter: blur(20px);
-  animation: moveClouds linear infinite;
+.cloud{
+  position:absolute;
+  background:rgba(255,255,255,0.08);
+  border-radius:50%;
+  filter:blur(20px);
+  animation:moveClouds linear infinite;
 }
+.cloud1{width:200px;height:80px;top:20%;left:-200px;animation-duration:40s;}
+.cloud2{width:300px;height:100px;top:50%;left:-300px;animation-duration:60s;}
 
-.cloud1 { width: 200px; height: 80px; top: 20%; left: -200px; animation-duration: 40s; }
-.cloud2 { width: 300px; height: 100px; top: 50%; left: -300px; animation-duration: 60s; }
-
-@keyframes moveClouds {
-  from { transform: translateX(0); }
-  to { transform: translateX(140vw); }
+@keyframes moveClouds{
+  from{transform:translateX(0);}
+  to{transform:translateX(140vw);}
 }
 
 /* 🕌 Mosque */
-.mosque {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 180px;
-  background: linear-gradient(to top, #000, transparent),
-              url('https://i.ibb.co/2kRZ7yD/mosque-silhouette.png') no-repeat bottom center;
-  background-size: cover;
-  opacity: 0.4;
+.mosque{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:180px;
+  background:linear-gradient(to top,#000,transparent),
+  url('https://i.ibb.co/2kRZ7yD/mosque-silhouette.png') no-repeat bottom center;
+  background-size:cover;
+  opacity:0.4;
 }
 
 /* Container */
-.container {
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 30px;
-  border-radius: 20px;
-  z-index: 2;
+.container{
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:30px;
+  border-radius:20px;
+  z-index:2;
 }
 
 /* Image */
-.image-box {
-  width: clamp(180px, 40vw, 240px);
-  height: clamp(230px, 50vw, 300px);
-  margin: auto;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(212,175,55,0.4);
-  box-shadow: 0 0 25px rgba(212,175,55,0.3);
-  animation: float 5s ease-in-out infinite;
+.image-box{
+  width:clamp(180px,40vw,240px);
+  height:clamp(230px,50vw,300px);
+  margin:auto;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(212,175,55,0.4);
+  box-shadow:0 0 25px rgba(212,175,55,0.3);
+  animation:float 5s ease-in-out infinite;
 }
-.image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.image-box img{
+  width:100%;height:100%;object-fit:cover;
 }
 
 /* Title */
-h1 {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  margin-top: 20px;
-  color: var(--gold);
+h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.8rem,5vw,2.8rem);
+  margin-top:20px;
+  color:var(--gold);
 }
 
 /* Countdown */
-.countdown {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
+.countdown{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin:20px 0;
 }
-.countdown div {
-  font-size: 0.85rem;
-}
-.countdown span {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--gold);
+.countdown div{font-size:0.85rem;}
+.countdown span{
+  font-size:1.4rem;
+  font-weight:bold;
+  color:var(--gold);
 }
 
 /* Button */
-.audio-btn {
-  margin-top: 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  background: var(--gold);
-  color: #000;
-  cursor: pointer;
-  font-weight: 600;
+.audio-btn{
+  margin-top:10px;
+  padding:8px 16px;
+  border:none;
+  border-radius:20px;
+  background:var(--gold);
+  color:#000;
+  cursor:pointer;
+  font-weight:600;
 }
 
 /* Footer */
-.footer {
-  margin-top: 15px;
-  font-size: 0.85rem;
+.footer{
+  margin-top:15px;
+  font-size:0.85rem;
 }
-.footer strong {
-  color: var(--gold);
-}
+.footer strong{color:var(--gold);}
 
 /* Animations */
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
 }
 </style>
 </head>
@@ -167,10 +149,8 @@ h1 {
 <body>
 
 <div class="moon"></div>
-
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
-
 <div class="mosque"></div>
 
 <div class="container">
@@ -190,19 +170,21 @@ h1 {
 
   <button class="audio-btn" onclick="toggleAudio()">Play Nasheed</button>
 
+  <!-- 🎵 Audio -->
   <audio id="nasheed" loop>
-    <source src="nasheed.mp3" type="audio/mp3">
+    <source src="Nasheed.mp3" type="audio/mp3">
   </audio>
 
   <div class="footer">
     Web developing by <br>
-    <strong>Ashik Muhammed & Fidha S</strong>
+    <strong>Ashik Muhammed & Fidha</strong>
   </div>
 
 </div>
 
 <script>
-const launch = new Date("2026-01-01").getTime();
+/* ⏳ Countdown */
+const launch = new Date("2026-09-01").getTime();
 
 setInterval(()=>{
   const now = new Date().getTime();
@@ -214,17 +196,36 @@ setInterval(()=>{
   document.getElementById("s").innerText = Math.floor((diff/1000)%60);
 },1000);
 
+/* 🎵 Audio autoplay + fallback */
 const audio = document.getElementById("nasheed");
+const btn = document.querySelector(".audio-btn");
 let playing = false;
 
+/* Try autoplay */
+window.addEventListener("load", () => {
+  audio.play().then(() => {
+    playing = true;
+    btn.innerText = "Pause Nasheed";
+  }).catch(() => {
+    document.body.addEventListener("click", startAudioOnce, { once:true });
+  });
+});
+
+function startAudioOnce(){
+  audio.play();
+  playing = true;
+  btn.innerText = "Pause Nasheed";
+}
+
+/* Toggle */
 function toggleAudio(){
   if(!playing){
     audio.play();
-    event.target.innerText = "Pause Nasheed";
+    btn.innerText = "Pause Nasheed";
     playing = true;
   } else {
     audio.pause();
-    event.target.innerText = "Play Nasheed";
+    btn.innerText = "Play Nasheed";
     playing = false;
   }
 }
