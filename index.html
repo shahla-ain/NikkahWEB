@@ -105,6 +105,33 @@ h1{
   color:var(--gold);
 }
 
+/* ✨ Quote */
+.quote{
+  margin-top:15px;
+  padding:10px;
+  border-left:2px solid var(--gold);
+}
+
+.arabic{
+  font-size:1.2rem;
+  direction:rtl;
+  color:var(--gold);
+  line-height:1.8;
+}
+
+.translation{
+  font-size:0.8rem;
+  opacity:0.75;
+  margin-top:5px;
+}
+
+.translation span{
+  display:block;
+  margin-top:4px;
+  font-size:0.7rem;
+  opacity:0.6;
+}
+
 /* Countdown */
 .countdown{
   display:flex;
@@ -161,6 +188,17 @@ h1{
 
   <h1>Launching Soon</h1>
 
+  <!-- ✨ Quote -->
+  <div class="quote">
+    <p class="arabic">
+      وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا
+    </p>
+    <p class="translation">
+      “And among His signs is that He created for you spouses from among yourselves.”
+      <span>— Qur’an 30:21</span>
+    </p>
+  </div>
+
   <div class="countdown">
     <div><span id="d">00</span><br>Days</div>
     <div><span id="h">00</span><br>Hrs</div>
@@ -170,20 +208,18 @@ h1{
 
   <button class="audio-btn" onclick="toggleAudio()">Play Nasheed</button>
 
-  <!-- 🎵 Audio -->
   <audio id="nasheed" loop>
     <source src="Nasheed.mp3" type="audio/mp3">
   </audio>
 
   <div class="footer">
     Web developing by <br>
-    <strong>Ashik Muhammed & Fidha</strong>
+    <strong>Ashik Muhammed & Fidha M P</strong>
   </div>
 
 </div>
 
 <script>
-/* ⏳ Countdown */
 const launch = new Date("2026-09-01").getTime();
 
 setInterval(()=>{
@@ -196,18 +232,17 @@ setInterval(()=>{
   document.getElementById("s").innerText = Math.floor((diff/1000)%60);
 },1000);
 
-/* 🎵 Audio autoplay + fallback */
+/* 🎵 Autoplay + fallback */
 const audio = document.getElementById("nasheed");
 const btn = document.querySelector(".audio-btn");
 let playing = false;
 
-/* Try autoplay */
 window.addEventListener("load", () => {
-  audio.play().then(() => {
+  audio.play().then(()=>{
     playing = true;
     btn.innerText = "Pause Nasheed";
-  }).catch(() => {
-    document.body.addEventListener("click", startAudioOnce, { once:true });
+  }).catch(()=>{
+    document.body.addEventListener("click", startAudioOnce, {once:true});
   });
 });
 
@@ -217,7 +252,6 @@ function startAudioOnce(){
   btn.innerText = "Pause Nasheed";
 }
 
-/* Toggle */
 function toggleAudio(){
   if(!playing){
     audio.play();
