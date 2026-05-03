@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikah Invites — Launching Soon</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #d4af37;
+  --dark: #0b141a;
+  --glass: rgba(255, 255, 255, 0.05);
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  height: 100vh;
+  background: radial-gradient(circle at top, #1a2a33, #0b141a);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Glow */
+body::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 70%);
+  top: -100px;
+  right: -100px;
+  filter: blur(80px);
+}
+
+/* Container */
+.container {
+  text-align: center;
+  backdrop-filter: blur(20px);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  animation: fadeUp 1.2s ease;
+}
+
+/* Image */
+.image-box {
+  width: 220px;
+  height: 280px;
+  margin: auto;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(212,175,55,0.4);
+  box-shadow: 0 0 25px rgba(212,175,55,0.3);
+  animation: float 5s ease-in-out infinite;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Title */
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 2.6rem;
+  margin-top: 20px;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+/* Divider */
+.divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 12px auto;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+/* Footer */
+.footer {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.footer strong {
+  color: var(--gold);
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Particles */
+.particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: rise 12s linear infinite;
+}
+
+@keyframes rise {
+  from { transform: translateY(100vh) scale(0); }
+  to { transform: translateY(-10vh) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- particles -->
+<div class="particles">
+  <span style="left:10%; animation-delay:0s;"></span>
+  <span style="left:30%; animation-delay:2s;"></span>
+  <span style="left:50%; animation-delay:4s;"></span>
+  <span style="left:70%; animation-delay:1s;"></span>
+  <span style="left:90%; animation-delay:3s;"></span>
+</div>
+
+<div class="container">
+
+  <!-- ✅ Local image -->
+  <div class="image-box">
+    <img src="Nikkah.png" alt="Couple">
+  </div>
+
+  <h1>Launching Soon</h1>
+
+  <div class="divider"></div>
+
+  <p class="subtitle">
+    A new way to create elegant Islamic wedding invitations
+  </p>
+
+  <div class="footer">
+    Web developing by <br>
+    <strong>Ashik Muhammed & Fidha</strong>
+  </div>
+
+</div>
+
+</body>
+</html>
